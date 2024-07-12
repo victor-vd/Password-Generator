@@ -33,31 +33,35 @@ const NUMBERCHARS =  document.getElementById("numberChars");
 const LOWERCHARS =  document.getElementById("lowerChars");
 const UPPERCHARS =  document.getElementById("upperChars");
 let passwordLength = 0;
-let password = '';
-let dictionary1 = `abcdefghijklmnopqrstuvwxyz`;
-let dictionary2 = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
-let dictionary3 = `0123456789`
-let dictionary4 = `!@#$%^&*()_+[]{}|;:,.<>?/~\"-=`;
+let password;
+const especialChars = `!@#$%^&*()_+[]{}|;:,.<>?/~\"-=`;
+const numbers = `0123456789`;
+const lowercaseChars = `abcdefghijklmnopqrstuvwxyz`;
+const uppercaseChars = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+const charMap = new Map();
+
 
 
 document.getElementById("send").onclick = function(){
+    console.clear();
     let includeEspecial = INCLUDEESPECIAL.checked;//1
     let includeNumber = INCLUDENUMBER.checked;//2
     let includeUpper = INCLUDEUPPER.checked;//3
     let includeLower = INCLUDELOWER.checked;//4
-    let especialChars = Number(ESPECIALCHARS.value);
-    let numberChars = Number(NUMBERCHARS.value);
-    let lowerChars = Number(LOWERCHARS.value);
-    let upperChars = Number(UPPERCHARS.value);
-    passwordLength = especialChars+numberChars+lowerChars+upperChars;
+    let NOfEspecial = includeEspecial?Number(ESPECIALCHARS.value):0;
+    let NOfNumber = includeNumber?Number(NUMBERCHARS.value):0;
+    let NOfLower = includeLower?Number(LOWERCHARS.value):0;
+    let NOfUpper = includeUpper?Number(UPPERCHARS.value):0;
+    password = '';
+    passwordLength = NOfEspecial+NOfNumber+NOfLower+NOfUpper;
     console.log(includeEspecial);
     console.log(includeNumber);
     console.log(includeUpper);
     console.log(includeLower);
-    console.log(especialChars);
-    console.log(numberChars);
-    console.log(lowerChars);
-    console.log(upperChars);
+    console.log(NOfEspecial);
+    console.log(NOfNumber);
+    console.log(NOfLower);
+    console.log(NOfUpper);
     console.log(passwordLength);
     if((includeEspecial)||(includeNumber)||(includeUpper)||(includeLower)){
         generateString();
@@ -65,35 +69,37 @@ document.getElementById("send").onclick = function(){
 }
 
 function generateString(){
-    for(let i=0; i <= passwordLength; i){
-        let generator = Math.ceil(Math.random()*(4));
+    for(let i=0; i <= passwordLength; i++){
+        generator = generateNumber();
         console.log(generator);
-        switch(generator){
-            case 1:
-                if(includeEspecial){
-                    password += dictionary.charAt(Math.ceil(Math.random()*32-1)+64);
-                    i++;
-                }
-            case 2:
-                if(includeNumber){
-                    password += dictionary.charAt(Math.ceil(Math.random()*10-1)+53);
-                    i++;
-                }
-            case 3:
-                if(includeUpper){
-                    password += dictionary.charAt(Math.ceil(Math.random()*26-1)+27);
-                    i++;
-                }
-            case 4:
-                if(includeLower){
-                    password += dictionary.charAt(Math.ceil(Math.random()*26-1)+1);
-                    i++;
-                }
-        }
+        
+        password += getChar(generator);
+
         console.log(password);
     }
-    console.log(password);
 }
+function generateNumber(){
+    let generator = Math.ceil(Math.random()*(4));
+    if(generator==1&&!includeEspecial){
+        generateNumber();
+    } else if(generator==2&&!includeNumber){
+        generateNumber();
+    } else if(generator==3&&!includeUpper){
+        generateNumber();
+    } else if(generator==4&&!includeLower){
+        generateNumber();
+    }
+    return generator;
+}
+
+function getChar(k){
+    charMap.set(1, especialChars.charAt(Math.ceil(Math.random()*32-1)+1));
+    charMap.set(2, numbers.charAt(Math.ceil(Math.random()*10-1)+1));
+    charMap.set(3, uppercaseChars.charAt(Math.ceil(Math.random()*26-1)+1));
+    charMap.set(4, lowercaseChars.charAt(Math.ceil(Math.random()*26-1)+1));
+    return charMap.get(k);
+}
+
 function dictionaryValue(k){    
     k = 1;
 
