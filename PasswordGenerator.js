@@ -32,22 +32,32 @@ const ESPECIALCHARS =  document.getElementById("especialChars");
 const NUMBERCHARS =  document.getElementById("numberChars");
 const LOWERCHARS =  document.getElementById("lowerChars");
 const UPPERCHARS =  document.getElementById("upperChars");
+let includeEspecial = false, includeNumber = false, includeUpper = false, includeLower = false;
 let passwordLength = 0;
 let password;
+let generator, generate;
 const especialChars = `!@#$%^&*()_+[]{}|;:,.<>?/~\"-=`;
 const numbers = `0123456789`;
 const lowercaseChars = `abcdefghijklmnopqrstuvwxyz`;
 const uppercaseChars = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
 const charMap = new Map();
+document.getElementById("includeEspecial").onchange = function(){
+    includeEspecial = INCLUDEESPECIAL.checked;//1
+};
+document.getElementById("includeNumber").onchange = function(){
+    includeNumber = INCLUDENUMBER.checked;//2
+};;
+document.getElementById("includeUpper").onchange = function(){
+    includeUpper = INCLUDEUPPER.checked;//3
+};;
+document.getElementById("includeLower").onchange = function(){
+    includeLower = INCLUDELOWER.checked;//4 
+};;
 
 
 
 document.getElementById("send").onclick = function(){
     console.clear();
-    let includeEspecial = INCLUDEESPECIAL.checked;//1
-    let includeNumber = INCLUDENUMBER.checked;//2
-    let includeUpper = INCLUDEUPPER.checked;//3
-    let includeLower = INCLUDELOWER.checked;//4
     let NOfEspecial = includeEspecial?Number(ESPECIALCHARS.value):0;
     let NOfNumber = includeNumber?Number(NUMBERCHARS.value):0;
     let NOfLower = includeLower?Number(LOWERCHARS.value):0;
@@ -60,8 +70,8 @@ document.getElementById("send").onclick = function(){
     console.log(includeLower);
     console.log(NOfEspecial);
     console.log(NOfNumber);
-    console.log(NOfLower);
     console.log(NOfUpper);
+    console.log(NOfLower);
     console.log(passwordLength);
     if((includeEspecial)||(includeNumber)||(includeUpper)||(includeLower)){
         generateString();
@@ -69,9 +79,9 @@ document.getElementById("send").onclick = function(){
 }
 
 function generateString(){
-    for(let i=0; i <= passwordLength; i++){
+    for(let i=0; i < passwordLength; i++){
+        console.log(`================================================`)
         generator = generateNumber();
-        console.log(generator);
         
         password += getChar(generator);
 
@@ -79,24 +89,43 @@ function generateString(){
     }
 }
 function generateNumber(){
-    let generator = Math.ceil(Math.random()*(4));
-    if(generator==1&&!includeEspecial){
-        generateNumber();
-    } else if(generator==2&&!includeNumber){
-        generateNumber();
-    } else if(generator==3&&!includeUpper){
-        generateNumber();
-    } else if(generator==4&&!includeLower){
-        generateNumber();
+    generate = 0;
+    generate = Math.ceil(Math.random()*(4));
+    console.log(`choosed: ${generate}`)
+    console.log(`includeEspecial: ${includeEspecial}, includeNumber: ${includeNumber}, includeUpper: ${includeUpper}, includeLower: ${includeLower}`)
+    switch(generate){
+        case 1:
+            if(!includeEspecial){
+                generateNumber();
+            }
+            break;
+        case 2:
+            if(!includeNumber){
+                generateNumber();
+            }
+            break;
+        case 3:
+            if(!includeUpper){
+                generateNumber();
+            }
+            break;
+        case 4:
+            if(!includeLower){
+                generateNumber();
+            }
+            break;
     }
-    return generator;
+    if(generate)
+    console.log(`passed: ${generate}`)
+    return ''+generate;
 }
 
 function getChar(k){
-    charMap.set(1, especialChars.charAt(Math.ceil(Math.random()*32-1)+1));
-    charMap.set(2, numbers.charAt(Math.ceil(Math.random()*10-1)+1));
-    charMap.set(3, uppercaseChars.charAt(Math.ceil(Math.random()*26-1)+1));
-    charMap.set(4, lowercaseChars.charAt(Math.ceil(Math.random()*26-1)+1));
+    charMap.set('1', especialChars.charAt(Math.round(Math.random()*31)));
+    charMap.set('2', numbers.charAt(Math.round(Math.random()*9)));
+    charMap.set('3', uppercaseChars.charAt(Math.round(Math.random()*25)));
+    charMap.set('4', lowercaseChars.charAt(Math.round(Math.random()*25)));
+    console.log(`k: ${k} / values: `+charMap.get('1')+charMap.get('2')+charMap.get('3')+charMap.get('4'))
     return charMap.get(k);
 }
 
