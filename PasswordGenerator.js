@@ -88,33 +88,3 @@ function getChar(k){
     console.log(`k: ${k} / values: `+charMap.get('1')+charMap.get('2')+charMap.get('3')+charMap.get('4'))
     return charMap.get(k);
 }
-
-function dictionaryValue(k){    
-    k = 1;
-
-    // Caracteres especiais (32)
-    const specialCharacters = `!@#$%^&*()_+[]{}|;:',.<>?/~\`"-=`;
-    for (let char of specialCharacters) {
-        Dictionary.set(k, char);
-        k++;
-    }
-
-    // Números de 0 a 9
-    for (let i = 0; i <= 9; i++) {
-        Dictionary.set(k, i.toString());
-        k++;
-    }
-
-    // Letras minúsculas
-    for (let i = 97; i <= 122; i++) {
-        Dictionary.set(k, String.fromCharCode(i));
-        k++;
-    }
-
-    // Letras maiúsculas
-    for (let i = 65; i <= 90; i++) {
-        Dictionary.set(k, String.fromCharCode(i));
-        k++;
-    }
-}
-
