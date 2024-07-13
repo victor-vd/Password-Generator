@@ -1,77 +1,40 @@
-/*
-<form id="form" onsubmit="submit_form(); return false;">
-<p>The password will have especial characters? (@-&)</p>
-<div>
-    <input id="includeEspecial" type="checkbox" required/>
-    <input id="especialChars" type="range" min="1" max="20" value="6" required/>
-</div>
-<p>The password will have number characters? (0-9)</p>
-<div>
-    <input id="includeNumber" type="checkbox" required/>
-    <input id="numberChars" type="range" min="1" max="20" value="6" required/>
-</div>
-<p>The password will have uppercase characters? (A-Z)</p>
-<div>
-    <input id="includeUpper" type="checkbox" required/>
-    <input id="upperChars" type="range" min="1" max="20" value="6" required/>
-</div>
-<p>The password will have lowercase characters? (a-z)</p>
-<div>
-    <input id="includeLower" type="checkbox" required/>
-    <input id="lowerChars" type="range" min="1" max="20" value="6" required/>
-</div><br><br>
-<button id="send" type="submit">send</button>
-</form>
-*/
-
-const INCLUDEESPECIAL = document.getElementById("includeEspecial");
-const INCLUDENUMBER =  document.getElementById("includeNumber");
-const INCLUDEUPPER =  document.getElementById("includeUpper");
-const INCLUDELOWER =  document.getElementById("includeLower");
-const ESPECIALCHARS =  document.getElementById("especialChars");
-const NUMBERCHARS =  document.getElementById("numberChars");
-const LOWERCHARS =  document.getElementById("lowerChars");
-const UPPERCHARS =  document.getElementById("upperChars");
-let includeEspecial = false, includeNumber = false, includeUpper = false, includeLower = false;
-let passwordLength = 0;
+let includeEspecial = false;
+let includeNumber = false;
+let includeUpper = false;
+let includeLower = false;
+let passwordLength;
 let password;
-let generator, generate;
+let generate;
 const especialChars = `!@#$%^&*()_+[]{}|;:,.<>?/~\"-=`;
 const numbers = `0123456789`;
 const lowercaseChars = `abcdefghijklmnopqrstuvwxyz`;
 const uppercaseChars = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
 const charMap = new Map();
+
 document.getElementById("includeEspecial").onchange = function(){
-    includeEspecial = INCLUDEESPECIAL.checked;//1
+    includeEspecial = document.getElementById("includeEspecial").checked;//1
 };
 document.getElementById("includeNumber").onchange = function(){
-    includeNumber = INCLUDENUMBER.checked;//2
+    includeNumber = document.getElementById("includeNumber").checked;//2
 };;
 document.getElementById("includeUpper").onchange = function(){
-    includeUpper = INCLUDEUPPER.checked;//3
+    includeUpper = document.getElementById("includeUpper").checked;//3
 };;
 document.getElementById("includeLower").onchange = function(){
-    includeLower = INCLUDELOWER.checked;//4 
+    includeLower = document.getElementById("includeLower").checked;//4 
 };;
-
-
 
 document.getElementById("send").onclick = function(){
     console.clear();
-    let NOfEspecial = includeEspecial?Number(ESPECIALCHARS.value):0;
-    let NOfNumber = includeNumber?Number(NUMBERCHARS.value):0;
-    let NOfLower = includeLower?Number(LOWERCHARS.value):0;
-    let NOfUpper = includeUpper?Number(UPPERCHARS.value):0;
+    passwordLength = includeEspecial?Number(document.getElementById("especialChars").value):0;
+    passwordLength += includeNumber?Number(document.getElementById("numberChars").value):0;
+    passwordLength += includeUpper?Number(document.getElementById("upperChars").value):0;
+    passwordLength += includeLower?Number(document.getElementById("lowerChars").value):0;
     password = '';
-    passwordLength = NOfEspecial+NOfNumber+NOfLower+NOfUpper;
     console.log(includeEspecial);
     console.log(includeNumber);
     console.log(includeUpper);
     console.log(includeLower);
-    console.log(NOfEspecial);
-    console.log(NOfNumber);
-    console.log(NOfUpper);
-    console.log(NOfLower);
     console.log(passwordLength);
     if((includeEspecial)||(includeNumber)||(includeUpper)||(includeLower)){
         generateString();
@@ -79,20 +42,17 @@ document.getElementById("send").onclick = function(){
 }
 
 function generateString(){
+    let generator;
     for(let i=0; i < passwordLength; i++){
-        console.log(`================================================`)
         generator = generateNumber();
-        
         password += getChar(generator);
-
-        console.log(password);
     }
+    console.log(password);
 }
+
 function generateNumber(){
     generate = 0;
     generate = Math.ceil(Math.random()*(4));
-    console.log(`choosed: ${generate}`)
-    console.log(`includeEspecial: ${includeEspecial}, includeNumber: ${includeNumber}, includeUpper: ${includeUpper}, includeLower: ${includeLower}`)
     switch(generate){
         case 1:
             if(!includeEspecial){
@@ -116,7 +76,7 @@ function generateNumber(){
             break;
     }
     if(generate)
-    console.log(`passed: ${generate}`)
+    //console.log(`passed: ${generate}`)
     return ''+generate;
 }
 
