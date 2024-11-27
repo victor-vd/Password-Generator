@@ -40,52 +40,52 @@ UPPER_CHARS_N.textContent = UPPER_CHARS.value;
 LOWER_CHARS_N.textContent = LOWER_CHARS.value;
 
 //set the value of the number of the slider every time that it changes
-ESPECIAL_CHARS.onchange = function(){
+ESPECIAL_CHARS.onchange = function () {
     ESPECIAL_CHARS_N.textContent = ESPECIAL_CHARS.value;
 };
-NUMBER_CHARS.onchange = function(){
+NUMBER_CHARS.onchange = function () {
     NUMBER_CHARS_N.textContent = NUMBER_CHARS.value;
 };
-UPPER_CHARS.onchange = function(){
+UPPER_CHARS.onchange = function () {
     UPPER_CHARS_N.textContent = UPPER_CHARS.value;
 };
-LOWER_CHARS.onchange = function(){
+LOWER_CHARS.onchange = function () {
     LOWER_CHARS_N.textContent = LOWER_CHARS.value;
 };
 
 //set the value of the checkbox on change
-INCLUDE_ESPECIAL.onchange = function(){
+INCLUDE_ESPECIAL.onchange = function () {
     includeEspecial = document.getElementById("includeEspecial").checked;//1
 };
-INCLUDE_NUMBER.onchange = function(){
+INCLUDE_NUMBER.onchange = function () {
     includeNumber = document.getElementById("includeNumber").checked;//2
 };
-INCLUDE_UPPER.onchange = function(){
+INCLUDE_UPPER.onchange = function () {
     includeUpper = document.getElementById("includeUpper").checked;//3
 };
-INCLUDE_LOWER.onchange = function(){
+INCLUDE_LOWER.onchange = function () {
     includeLower = document.getElementById("includeLower").checked;//4 
 };
 
 //when the user submit, the program will calculate the password length and if any
 //checkbox is checked, it will call the function to generate the password
-document.getElementById("send").onclick = function(){
+document.getElementById("send").onclick = function () {
     console.clear();
-    passwordLength = includeEspecial?Number(ESPECIAL_CHARS.value):0;
-    passwordLength += includeNumber?Number(NUMBER_CHARS.value):0;
-    passwordLength += includeUpper?Number(UPPER_CHARS.value):0;
-    passwordLength += includeLower?Number(LOWER_CHARS.value):0;
+    passwordLength = includeEspecial ? Number(ESPECIAL_CHARS.value) : 0;
+    passwordLength += includeNumber ? Number(NUMBER_CHARS.value) : 0;
+    passwordLength += includeUpper ? Number(UPPER_CHARS.value) : 0;
+    passwordLength += includeLower ? Number(LOWER_CHARS.value) : 0;
     password = '';
-    if((includeEspecial)||(includeNumber)||(includeUpper)||(includeLower)){
+    if ((includeEspecial) || (includeNumber) || (includeUpper) || (includeLower)) {
         generateString();
     }
 }
 
 //until it reaches the password length the program will generate a character
 //once it finishes, the password will be displayed to the user.
-function generateString(){
+function generateString() {
     let generator;
-    for(let i=0; i < passwordLength; i++){
+    for (let i = 0; i < passwordLength; i++) {
         generator = generateNumber();
         password += getChar(generator);
     }
@@ -93,40 +93,47 @@ function generateString(){
 }
 
 //pick a number between 1 and 4 and if that character is included to password, proceed
-function generateNumber(){
+function generateNumber() {
     generate = 0;
-    generate = Math.ceil(Math.random()*(4));
-    switch(generate){
+    generate = Math.ceil(Math.random() * (4));
+    switch (generate) {
         case 1:
-            if(!includeEspecial){
+            if (!includeEspecial) {
                 generateNumber();
             }
             break;
         case 2:
-            if(!includeNumber){
+            if (!includeNumber) {
                 generateNumber();
             }
             break;
         case 3:
-            if(!includeUpper){
+            if (!includeUpper) {
                 generateNumber();
             }
             break;
         case 4:
-            if(!includeLower){
+            if (!includeLower) {
                 generateNumber();
             }
             break;
     }
-    if(generate)
-    return ''+generate;
+    if (generate)
+        return '' + generate;
 }
 
 //set a random character to a number every time the function is called
-function getChar(k){
-    charMap.set('1', ESPECIAL_CHAR.charAt(Math.round(Math.random()*31)));
-    charMap.set('2', NUMBER.charAt(Math.round(Math.random()*9)));
-    charMap.set('3', LOWERCASE_CHAR.charAt(Math.round(Math.random()*25)));
-    charMap.set('4', UPPERCASE_CHAR.charAt(Math.round(Math.random()*25)));
+function getChar(k) {
+    charMap.set('1', ESPECIAL_CHAR.charAt(Math.round(Math.random() * 31)));
+    charMap.set('2', NUMBER.charAt(Math.round(Math.random() * 9)));
+    charMap.set('3', LOWERCASE_CHAR.charAt(Math.round(Math.random() * 25)));
+    charMap.set('4', UPPERCASE_CHAR.charAt(Math.round(Math.random() * 25)));
     return charMap.get(k);
+}
+
+let ass = 10;
+
+for (let i = 1; i <= 200; i++) {
+    ass += 50;
+    console.log(ass);
 }
